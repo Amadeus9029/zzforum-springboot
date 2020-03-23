@@ -1,20 +1,19 @@
 package com.graduate.zzforum.dao;
 
-import java.util.List;
-
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.graduate.zzforum.entity.ZZUser;
-
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * ZZUserDao
  */
-@Mapper
 @Repository
-public interface ZZUserDao {
-    List<ZZUser> getZZUserList();
+public interface ZZUserDao extends BaseMapper<ZZUser> {
+//    List<ZZUser> getZZUserList();
     ZZUser findZZUser(ZZUser user);
-    void addZZUser(ZZUser user);
-    void removeZZUserById(int id);
+//    void addZZUser(ZZUser user);
+//    void removeZZUserById(int id);
 }

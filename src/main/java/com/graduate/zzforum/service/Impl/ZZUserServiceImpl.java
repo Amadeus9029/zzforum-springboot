@@ -2,6 +2,7 @@ package com.graduate.zzforum.service.Impl;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.graduate.zzforum.dao.ZZUserDao;
 import com.graduate.zzforum.entity.ZZUser;
 import com.graduate.zzforum.service.ZZUserService;
@@ -18,7 +19,7 @@ public class ZZUserServiceImpl implements ZZUserService {
     ZZUserDao zzUserDao;
     @Override
     public List<ZZUser> listUser() {
-        return zzUserDao.getZZUserList();
+        return zzUserDao.selectList(null);
     }
 
     @Override
@@ -28,11 +29,11 @@ public class ZZUserServiceImpl implements ZZUserService {
 
     @Override
     public void addUser(ZZUser user) {
-        zzUserDao.addZZUser(user);
+        zzUserDao.insert(user);
     }
 
     @Override
     public void removeUser(int id) {
-        zzUserDao.removeZZUserById(id);
+        zzUserDao.deleteById(id);
     }
 }
