@@ -1,6 +1,7 @@
 package com.graduate.zzforum.service.mapper;
 
 import com.graduate.zzforum.entity.ZZUser;
+import com.graduate.zzforum.entity.vo.JwtUser;
 import com.graduate.zzforum.service.dto.ZZUserDto;
 import org.mapstruct.Mapper;
 
@@ -9,4 +10,5 @@ import org.mapstruct.Mapper;
 public interface ZZUserMapper{
     ZZUser toEntity(ZZUserDto zzUserDto);
     ZZUserDto toDto(ZZUser zzUser);
+    JwtUser toJwt(ZZUser zzUser);
 }

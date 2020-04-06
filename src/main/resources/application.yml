@@ -5,9 +5,15 @@ spring:
   datasource:
     username: root
     password: 12345678
-    url: jdbc:mysql://localhost:3306/zzforum?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/zzforum2?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: RFgQ06spECDAGqwoKQNDoblvJZH8DLj6
+            client-secret: JKKLJOoasdlfj
   # security:
   #   oauth2:
   #     resourceserver:
@@ -39,4 +45,8 @@ mybatis-plus:
 #   clientSecret: JKKLJOoasdlfj
 jwt: 
   key: RFgQ06spECDAGqwoKQNDoblvJZH8DLj6
-  ttl: 3600000
+  ttl: 60000L
+  header: Auth-Token
+
+rsa:
+  private_key: MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBALuP4qMZuPwth2pKeEfAtfVii0X9kU000xwauXJEXfPuLvdq4a/NZQgpQdWVAGnuKKHpFn8Yt4b2l712P4OjdXjYyzawb0xo4YWOm+Mwa62O8nZZZETsN+JcItWZTui3gvEZd++1mVu6aJ8hJrb0c1a51VvkdSAUyDPmqs61/2CnAgMBAAECgYAhJB9rqlPhWzoeMeJm60o7fZoWV+OgvMDAqogyBJqFS4TI+v29zpEXjBKx5o4YKZjMYx8yfe+PzWqqc4ZtgCh1T+9wYxb4zQ/b4Opjr4QZ5FEa1/jp0vKojAoMd/jAI84obAYEDuxvOtaT7rqcvw5wbEaYVXNUVz2H1CBN28BCwQJBAPgsOuv80L5NBmIDfuBervbsSuQFhhl2C0SRjCDhYrjiyNUOXUNgPXgY6TZ90Vgols3xuxyJ6SaDIYsOZcOPodkCQQDBekdRU+OoRC7dOZVZKeEjUiXzvVLxm6Z8OuGcZCXFtyTFMtVG+ISWMJxrntPjUWSxGyXGsDF61FifKtL4qwZ/AkBHZEnq+0Z9iCDu7zx/hR1mESGWKPSjvG6PYiNijhPdRfgqOkCgEj58nwXv1A/2AW8ofYKrOg0lNBHhM9oYgOg5AkAVu+i7CBNw2YfyLf/K7ltuHlJJGSFyJqwDFJI3gUCE/1fQFy/CMzShsoA/zq26wW/wPT53HV/Rjn0OFD9y07N9AkAEpOlM00ZWItOagt3QFMMJZaXGQ/WNrEOFDS9iPWYOlEyOAdyBZ/myjF8wqoZlrf9YFv8+uYDZfQUtLqqa449x

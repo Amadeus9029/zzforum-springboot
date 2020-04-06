@@ -10,7 +10,7 @@
         select * from `zz_user`
         <where>
             <if test="id != null and id != ''">and `id` = #{id}</if>
-            <if test="name != null and name != ''">and `name` = #{name}</if>
+            <if test="username != null and username != ''">and `username` = #{username}</if>
         </where>
     </select>
     <insert id="addZZUser" parameterType="ZZUser">

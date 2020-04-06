@@ -15,6 +15,6 @@ public class ZZResourceVo implements Serializable {
     private String path;
     private String icon;
     private List<ZZResourceVo> children;
-    private Date create_time;
-    private Date update_time;
+    private Date createTime;
+    private Date updateTime;
 }
