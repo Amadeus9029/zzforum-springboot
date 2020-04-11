@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.zzforum.system.dao.ZzPermissionDao">
+
+    <select id="findZzPermission" resultMap="PermissionRole">
+        select
+        p.*,
+        r.id rid,
+        r.name rname,
+        r.permission rpermission,
+        r.create_time rct,
+        r.update_time rut
+        from `zz_permission` p,`role` r,`zz_role_permission` pr
+        <where>
+            p.id = pr.permission_id
+            and r.id = pr.role_id
+            <if test="id != null and id != ''">and `id` = #{id}</if>
+            <if test="url != null and url != ''">and `url` = #{url}</if>
+        </where>
+    </select>
+    <resultMap id="PermissionRole" type="ZzPermission">
+        <id property="id" column="id"/>
+        <result property="url" column="url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <collection property="roles" ofType="ZzRole">
+            <id property="id" column="rid"/>
+            <result property="name" column="rname"/>
+            <result property="permission" column="rpermission"/>
+            <result property="createTime" column="rct"/>
+            <result property="updateTime" column="rut"/>
+        </collection>
+    </resultMap>
+</mapper>

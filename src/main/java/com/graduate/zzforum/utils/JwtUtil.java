@@ -15,21 +15,20 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 public class JwtUtil{
-    private static String key;
-    @Value("${jwt.ttl}")
-    private static Long ttl;
-    private static SignatureAlgorithm alg = SignatureAlgorithm.HS256;
+    private final static String key="RFgQ06spECDAGqwoKQNDoblvJZH8DLj6";
+    private final static Long ttl = 60000L;
+    private final static SignatureAlgorithm alg = SignatureAlgorithm.HS256;
 
     public static String createToken(String name, Map<String, Object> map) {
         long now = System.currentTimeMillis();
         long exp = now + ttl;
-        
         JwtBuilder jwtBuilder 
         = Jwts.builder().setId(UUID.randomUUID().toString())
         .setSubject(name)
         .setIssuedAt(new Date())
         .signWith(alg, key);
         jwtBuilder.setClaims(map).setExpiration(new Date(exp));
+
         String token = jwtBuilder.compact();
         return token;
     }
@@ -58,9 +57,5 @@ public class JwtUtil{
             e.printStackTrace();
         }
         return false;
-    }
-    @Value("${jwt.key}")
-    public void setKey(String key){
-        JwtUtil.key = key;
     }
 }

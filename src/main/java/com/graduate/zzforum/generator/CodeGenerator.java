@@ -1,20 +1,28 @@
 package com.graduate.zzforum.generator;
 
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableField;
+import com.baomidou.mybatisplus.generator.config.po.TableFill;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
+import java.util.*;
+@Configuration
 public class CodeGenerator {
     /**
      * <p>
@@ -42,25 +50,31 @@ public class CodeGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/src/main/java");
+        gc.setOutputDir(projectPath + "/zzforum-SpringBoot/src/main/java");
         gc.setAuthor("me");
         gc.setOpen(false);
-        // gc.setSwagger2(true); 实体属性 Swagger2 注解
+        gc.setServiceName("%sService");
+        gc.setFileOverride(false);
+        gc.setMapperName("%sDao");
+        gc.setXmlName("%sMapper");
+        gc.setDateType(DateType.ONLY_DATE);
+        gc.setIdType(IdType.AUTO);
+        gc.setSwagger2(true); //实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/zzforum2?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://localhost:3306/zzforum2?serverTimezone=UTC&useUnicode=true&useSSL=false&characterEncoding=utf8");
         // dsc.setSchemaName("public");
-        dsc.setDriverName("com.mysql.jdbc.Driver");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("12345678");
         mpg.setDataSource(dsc);
-
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.baomidou.ant");
+        pc.setParent("com.graduate.zzforum");
+        pc.setMapper("dao");
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -83,7 +97,7 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
                 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-                return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
+                return projectPath + "/zzforum-SpringBoot/src/main/resources/mapper/" + pc.getModuleName()
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
@@ -118,16 +132,24 @@ public class CodeGenerator {
         mpg.setTemplate(templateConfig);
 
         // 策略配置
+        // 数据库表
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
+//        strategy.setSuperEntityClass("你自己的父类实体,没有就不用设置!");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
+        strategy.setLogicDeleteFieldName("deleted");
+        List<TableFill> tableFills = new ArrayList<>();
+        TableFill create_time = new TableFill("create_time", FieldFill.INSERT);
+        TableFill update_time = new TableFill("update_time", FieldFill.INSERT_UPDATE);
+        tableFills.add(create_time);
+        tableFills.add(update_time);
+        strategy.setTableFillList(tableFills);
         // 公共父类
-        strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
+//        strategy.setSuperControllerClass("你自己的父类控制器,没有就不用设置!");
         // 写于父类中的公共字段
-        strategy.setSuperEntityColumns("id");
+//        strategy.setSuperEntityColumns("id");
         strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
         strategy.setControllerMappingHyphenStyle(true);
         strategy.setTablePrefix(pc.getModuleName() + "_");

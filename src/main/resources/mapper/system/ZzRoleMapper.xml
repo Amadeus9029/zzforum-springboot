@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.zzforum.system.dao.ZzRoleDao">
+    <select id="findZzRole" resultMap="RoleWithUsersAndPermissions" parameterType="ZzRole">
+        select
+        u.id uid,
+        u.username uname,
+        u.password upwd,
+        u.create_time uct,
+        u.update_time uut,
+        u.enabled ue,
+        r.*,
+        p.id pid,
+        p.url purl,
+        p.create_time pct,
+        p.update_time put
+        from `user` u,`role` r,`users_roles` ur,`zz_permission` p,`zz_role_permission` pr
+        <where>
+            u.id = ur.user_id
+            and r.id = ur.role_id
+            and r.id = pr.role_id
+            and p.id = pr.permission_id
+            <if test="id != null and id != ''">and `id` = #{id}</if>
+            <if test="name != null and name != ''">and `name` = #{name}</if>
+            <if test="permission != null and permission != ''">and `permission` = #{permission}</if>
+        </where>
+    </select>
+    <resultMap id="RoleWithUsersAndPermissions" type="ZzRole">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="permission" column="permission"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <collection property="users" ofType="ZzUser">
+            <id property="id" column="uid"/>
+            <result property="username" column="uname"/>
+            <result property="password" column="upwd"/>
+            <result property="createTime" column="uct"/>
+            <result property="updateTime" column="uut"/>
+            <result property="enabled" column="ue"/>
+        </collection>
+        <collection property="permissions" ofType="ZzPermission">
+            <id property="id" column="pid"/>
+            <result property="url" column="purl"/>
+            <result property="createTime" column="pct"/>
+            <result property="updateTime" column="put"/>
+        </collection>
+    </resultMap>
+    <select id="findZzRoleWithMenu" resultMap="RoleWithUsersAndMenus" parameterType="ZzRole">
+        select
+        u.id uid,
+        u.username uname,
+        u.password upwd,
+        u.create_time uct,
+        u.update_time uut,
+        u.enabled ue,
+        r.*,
+        m.id mid,
+        m.i_frame mif,
+        m.name mname,
+        m.component mcomponent,
+        m.pid mpid,
+        m.sort msort,
+        m.icon micon,
+        m.path mpath,
+        m.cache mcache,
+        m.hidden mhidden,
+        m.component_name mcn,
+        m.create_time mct,
+        m.update_time mut,
+        m.permission mpermission,
+        m.type mtype
+        from `user` u,`role` r,`users_roles` ur,`menu` m,`roles_menus` mr
+        <where>
+            u.id = ur.user_id
+            and r.id = ur.role_id
+            and r.id = mr.role_id
+            and m.id = mr.menu_id
+            <if test="id != null and id != ''">and `id` = #{id}</if>
+            <if test="name != null and name != ''">and r.name = #{name}</if>
+            <if test="permission != null and permission != ''">and `permission` = #{permission}</if>
+        </where>
+    </select>
+    <resultMap id="RoleWithUsersAndMenus" type="ZzRole">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="permission" column="permission"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <collection property="users" ofType="ZzUser">
+            <id property="id" column="uid"/>
+            <result property="username" column="uname"/>
+            <result property="password" column="upwd"/>
+            <result property="createTime" column="uct"/>
+            <result property="updateTime" column="uut"/>
+            <result property="enabled" column="ue"/>
+        </collection>
+        <collection property="menus" ofType="ZzMenu">
+            <id property="id" column="pid"/>
+            <result property="iFrame" column="mif"/>
+            <result property="name" column="mname"/>
+            <result property="component" column="mcomponent"/>
+            <result property="pid" column="mpid"/>
+            <result property="sort" column="msort"/>
+            <result property="icon" column="micon"/>
+            <result property="path" column="mpath"/>
+            <result property="cache" column="mcache"/>
+            <result property="hidden" column="mhidden"/>
+            <result property="componentName" column="mcn"/>
+            <result property="createTime" column="mct"/>
+            <result property="updateTime" column="mut"/>
+            <result property="permission" column="mpermission"/>
+            <result property="type" column="mtype"/>
+        </collection>
+    </resultMap>
+</mapper>

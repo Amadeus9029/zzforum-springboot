@@ -5,7 +5,7 @@ spring:
   datasource:
     username: root
     password: 12345678
-    url: jdbc:mysql://localhost:3306/zzforum2?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/eladmin?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
   security:
     oauth2:
@@ -35,10 +35,12 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 mybatis-plus:
-  type-aliases-package: com.graduate.zzforum.entity
-  mapper-locations: classpath:mybatis-plus/*.xml
+  type-aliases-package: com.graduate.zzforum.system.entity
+  type-aliases-super-type: java.lang.Object
+  mapper-locations: classpath:mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # auth0:
 #   domain: 965720890.auth0.com
 #   clientId: RFgQ06spECDAGqwoKQNDoblvJZH8DLj6

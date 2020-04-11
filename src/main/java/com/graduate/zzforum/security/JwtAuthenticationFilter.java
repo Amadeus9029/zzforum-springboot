@@ -22,15 +22,19 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    @Autowired
-    private SecurityProperties securityProperties;
-    @Autowired
-    @Qualifier("ZZUserDetailsServiceImpl")
-    private UserDetailsService userDetailsService;
+    private final SecurityProperties securityProperties;
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(SecurityProperties securityProperties,
+    @Qualifier("zzUserDetailsServiceImpl") UserDetailsService userDetailsService) {
+        this.securityProperties = securityProperties;
+        this.userDetailsService = userDetailsService;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    HttpServletResponse response,
+    FilterChain filterChain) throws ServletException, IOException {
         //获取请求头中的token
         String token = request.getHeader(securityProperties.getHeader());
         System.out.println(token);
